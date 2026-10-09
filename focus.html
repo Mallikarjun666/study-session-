@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focus session</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app focus">
+    <a class="back-link" href="index.html">Back to tasks</a>
+    <h1 id="task-title">Focus session</h1>
+
+    <!-- View 1: choose how long this session will be -->
+    <section id="setup-view" hidden aria-labelledby="setup-heading">
+      <p id="setup-info" class="focus-sub"></p>
+      <h2 id="setup-heading">How long is this session?</h2>
+
+      <!-- Choosing a preset starts the timer straight away -->
+      <div class="preset-grid">
+        <button type="button" class="btn btn-primary" data-minutes="15">15 min</button>
+        <button type="button" class="btn btn-primary" data-minutes="25">25 min</button>
+        <button type="button" class="btn btn-primary" data-minutes="45">45 min</button>
+        <button type="button" class="btn btn-primary" data-minutes="60">60 min</button>
+        <button type="button" class="btn btn-primary" data-minutes="90">90 min</button>
+      </div>
+
+      <form id="custom-form" class="custom-form">
+        <div class="field">
+          <label for="custom-minutes">Custom length (minutes)</label>
+          <input id="custom-minutes" type="number" inputmode="numeric" min="1" max="480" step="1" required>
+        </div>
+        <button type="submit" class="btn btn-secondary">Start</button>
+      </form>
+      <p id="custom-error" class="error" role="alert"></p>
+
+      <button type="button" id="open-ended-btn" class="btn btn-secondary open-ended">
+        No time limit (count up)
+      </button>
+    </section>
+
+    <!-- View 2: the running timer -->
+    <section id="timer-view" hidden aria-label="Active session">
+      <p id="session-note" class="focus-sub"></p>
+
+      <div id="ring" class="ring">
+        <svg viewBox="0 0 220 220" aria-hidden="true" focusable="false">
+          <circle class="ring-track" cx="110" cy="110" r="100"></circle>
+          <circle id="ring-arc" class="ring-arc" cx="110" cy="110" r="100" transform="rotate(-90 110 110)"></circle>
+        </svg>
+        <div class="ring-center">
+          <p id="time-display" class="time" role="timer">00:00</p>
+          <p id="time-caption" class="time-caption">remaining</p>
+        </div>
+      </div>
+
+      <div class="focus-actions">
+        <button type="button" id="extend-btn" class="btn btn-secondary">Add 10 min</button>
+        <button type="button" id="finish-btn" class="btn btn-stop">Finish session</button>
+      </div>
+
+      <p class="hint">You can leave this page. The timer keeps running and shows on your task list.</p>
+
+      <!-- Screen-reader announcement for "time's up" (not updated every second) -->
+      <p id="live-status" class="visually-hidden" role="status"></p>
+    </section>
+  </main>
+
+  <script src="storage.js"></script>
+  <script src="focus.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Study Session Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Study Session Tracker</h1>
+
+      <!-- Today's total focused minutes -->
+      <section class="summary" aria-labelledby="total-label">
+        <p id="total-label" class="summary-label">Focused today</p>
+        <p id="today-total" class="summary-value" aria-live="polite">0 min</p>
+      </section>
+    </header>
+
+    <!-- Shown only while a session is running (filled in by app.js) -->
+    <p id="session-banner" class="session-banner" hidden></p>
+
+    <!-- Add a task: title plus an optional estimate for the whole task -->
+    <form id="task-form" class="task-form">
+      <div class="field">
+        <label for="task-title" class="visually-hidden">Task title</label>
+        <input
+          id="task-title"
+          type="text"
+          placeholder="What are you studying?"
+          maxlength="100"
+          autocomplete="off"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="task-estimate">Estimate (optional)</label>
+        <select id="task-estimate">
+          <option value="">No estimate</option>
+          <option value="30">30 min</option>
+          <option value="60">1 hour</option>
+          <option value="120">2 hours</option>
+          <option value="180">3 hours</option>
+          <option value="240">4 hours</option>
+          <option value="300">5 hours</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Add task</button>
+    </form>
+
+    <section aria-labelledby="tasks-heading">
+      <h2 id="tasks-heading">Tasks</h2>
+      <ul id="task-list" class="task-list"></ul>
+      <p id="empty-message" class="empty" hidden>No tasks yet. Add one above to get started.</p>
+    </section>
+  </main>
+
+  <!-- storage.js must load first: app.js uses its functions -->
+  <script src="storage.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

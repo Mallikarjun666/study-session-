@@ -1,0 +1,368 @@
+/* ---------- Design tokens (calm palette, AA contrast on their backgrounds) ---------- */
+:root {
+  --bg: #f3f7f6;
+  --surface: #ffffff;
+  --text: #1f2d2b;
+  --text-muted: #4a5d5a;
+  --border: #c5d3d0;
+  --primary: #2c6a63;        /* white text on this is ~5.8:1 */
+  --primary-hover: #245852;
+  --stop: #94452f;           /* white text on this is ~6:1 */
+  --stop-hover: #7b3926;
+  --active-bg: #e6f2ef;
+  --disabled-bg: #e3ebe9;
+  --ring-track: #cfdcd9;
+  --focus: #1b5e9b;
+
+  --radius: 12px;
+  --space: 1rem;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ---------- Base (mobile-first) ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Makes the `hidden` attribute win over any display rule set below */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.app {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: var(--space);
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 var(--space);
+  overflow-wrap: anywhere;
+}
+
+h2 {
+  font-size: 1.125rem;
+  margin: 1.5rem 0 0.75rem;
+}
+
+/* Visible keyboard focus for every interactive element */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Hides text visually but keeps it available to screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Today's total ---------- */
+.summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space);
+}
+
+.summary-label {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.summary-value {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* ---------- "Session in progress" banner ---------- */
+.session-banner {
+  margin: var(--space) 0 0;
+  padding: 0.75rem var(--space);
+  background: var(--active-bg);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
+}
+
+.session-banner a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ---------- Form fields ---------- */
+.task-form {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: var(--space);
+}
+
+.field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.field label {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--text-muted);
+  border-radius: var(--radius);
+}
+
+/* ---------- Buttons (also used on links that act like buttons) ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;           /* comfortable touch target */
+  padding: 0.5rem 1.25rem;
+  font: inherit;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.btn-primary { background: var(--primary); }
+.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-stop { background: var(--stop); }
+.btn-stop:hover { background: var(--stop-hover); }
+
+.btn-secondary {
+  color: var(--primary);
+  background: var(--surface);
+  border-color: var(--primary);
+}
+.btn-secondary:hover { background: var(--active-bg); }
+
+.btn:disabled {
+  color: var(--text-muted);
+  background: var(--disabled-bg);
+  cursor: not-allowed;
+}
+
+/* ---------- Task list ---------- */
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.task {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  padding: var(--space);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.task.is-active {
+  background: var(--active-bg);
+  border-color: var(--primary);
+}
+
+.task-title {
+  font-weight: 600;
+  overflow-wrap: anywhere;    /* long titles don't break the layout */
+}
+
+.task-meta {
+  grid-column: 1;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* The action button sits on the right and spans the title and meta rows */
+.task .btn {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+/* Estimate progress bar runs full width under the text */
+.task-progress {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 8px;
+  margin-top: 0.5rem;
+  border: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  appearance: none;
+  background: var(--ring-track);
+}
+.task-progress::-webkit-progress-bar { background: var(--ring-track); }
+.task-progress::-webkit-progress-value { background: var(--primary); }
+.task-progress::-moz-progress-bar { background: var(--primary); }
+
+.empty {
+  color: var(--text-muted);
+}
+
+/* ---------- Focus page ---------- */
+.back-link {
+  display: inline-block;
+  margin-bottom: var(--space);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.focus h1 {
+  margin-bottom: 0.25rem;
+}
+
+.focus-sub {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+}
+
+/* Session length presets */
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.custom-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: end;
+  margin-top: var(--space);
+}
+
+.custom-form .field {
+  flex: 1;
+}
+
+.open-ended {
+  width: 100%;
+  margin-top: var(--space);
+}
+
+.error {
+  min-height: 1.5rem;
+  margin: 0.5rem 0 0;
+  color: var(--stop);
+}
+
+/* The timer ring: the one standout element on the focus page */
+.ring {
+  position: relative;
+  width: min(80vw, 18rem);
+  aspect-ratio: 1;
+  margin: 1.5rem auto;
+}
+
+.ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ring-track {
+  fill: none;
+  stroke: var(--ring-track);
+  stroke-width: 10;
+}
+
+.ring-arc {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.ring.is-open .ring-arc { opacity: 0.35; }       /* open-ended: no goal, so the ring stays quiet */
+.ring.is-up .ring-arc { stroke: var(--stop); }   /* countdown finished */
+
+.ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.time {
+  margin: 0;
+  font-size: clamp(2.5rem, 12vw, 3.5rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;   /* digits keep a fixed width so the clock doesn't jiggle */
+}
+
+.time-caption {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.ring.is-up .time-caption {
+  color: var(--stop);
+  font-weight: 600;
+}
+
+.focus-actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.hint {
+  margin: var(--space) 0 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* Smooth ring movement, only for people who haven't asked for reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  .ring-arc {
+    transition: stroke-dashoffset 0.5s linear;
+  }
+}
+
+/* ---------- Wider screens ---------- */
+@media (min-width: 30rem) {
+  .task-form {
+    grid-template-columns: 1fr auto auto;
+    align-items: end;
+  }
+
+  .focus-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
